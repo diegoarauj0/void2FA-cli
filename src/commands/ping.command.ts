@@ -1,14 +1,10 @@
-import { success } from "../utils/logger.js";
+import { loggerSuccess } from "@/utils/logger.util.js";
 import { BaseCommand } from "./base.command.js";
 
-export class PingCommand extends BaseCommand {
-  constructor() {
-    super({
-      name: "ping",
-      description: "return Pong!",
-      action: async () => {
-        success("Pong!");
-      },
-    });
-  }
-}
+export default new BaseCommand({
+  name: "ping",
+  description: "return Pong!",
+  action: async () => {
+    loggerSuccess("Pong!");
+  },
+});

@@ -1,35 +1,47 @@
 import { Command } from "commander";
+import config from "@/config.js";
+import chalk from "chalk";
+import errorHandlerUtil from "@/utils/errorHandler.util.js";
 
-export interface CommandOption {
-  flags: string;
-  description?: string;
-  defaultValue?: string | boolean | string[];
-}
-
-export interface BaseCommandParams<ARGS extends any[]> {
-  name: string;
+interface CreateBaseCommandProps {
+  options?: { name: string; description: string }[];
+  arguments?: string[];
   description: string;
-  options?: CommandOption[];
-  action: (...args: ARGS) => Promise<void> | void;
+  examples?: { command: string; comment?: string }[];
+  name: string;
+  action: (this: Command, ...args: any[]) => Promise<void>;
 }
 
-export abstract class BaseCommand<ARGS extends any[] = any[]> {
-  protected readonly command: Command;
+export class BaseCommand extends Command {
+  constructor(props: CreateBaseCommandProps) {
+    super(props.name);
 
-  constructor(params: BaseCommandParams<ARGS>) {
-    const { name, description, options = [], action } = params;
+    props.arguments?.forEach((argument) => {
+      this.argument(argument);
+    });
 
-    this.command = new Command(name);
-    this.command.description(description);
+    let exampleText = "";
 
-    for (const option of options) {
-      this.command.option(option.flags, option.description, option.defaultValue);
-    }
+    props.examples?.forEach(({ command, comment }) => {
+      exampleText += `${BaseCommand.formatExample(command, comment)}\n `;
+    });
 
-    this.command.action(action);
+    this.description(`${props.description}\n ${exampleText}`);
+
+    props.options?.forEach(({ name, description }) => {
+      this.option(name, description);
+    });
+
+    this.action(errorHandlerUtil(props.action));
   }
 
-  getCommand(): Command {
-    return this.command;
+  public static formatExample(command: string, comment?: string) {
+    const bin = chalk.magenta(config.bin);
+    const cmd = chalk.green(command);
+    const prefix = chalk.gray("$");
+
+    const annotation = comment ? " " + chalk.dim(comment) : "";
+
+    return `${prefix} ${bin} ${cmd}${annotation}`;
   }
 }
