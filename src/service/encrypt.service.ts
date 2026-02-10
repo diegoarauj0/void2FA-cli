@@ -43,7 +43,7 @@ export class EncryptService {
 
   public static async decrypt(data: IEncryptedData): Promise<Array<AccountEntity>> {
     const key = await EncryptService.getkey();
-    console.log(data)
+    
     const decipher = crypto.createDecipheriv(EncryptService.algorithm, key, Buffer.from(data.iv, "hex"));
 
     decipher.setAuthTag(Buffer.from(data.tag, "hex"));

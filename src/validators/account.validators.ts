@@ -8,7 +8,7 @@ export const accountValidators = {
   digits: Joi.number().min(1).label("digits"),
   period: Joi.number().min(1).label("period"),
   type: Joi.string().valid("HOTP", "TOTP").label("type"),
-  algorithm: Joi.string().valid("sha1", "sha256", "sha512").label("algorithm"),
+  algorithm: Joi.string().lowercase().valid("sha1", "sha256", "sha512").label("algorithm"),
   encoding: Joi.string().valid("ascii", "hex", "base32", "base64").label("encoding"),
   issuer: STRING_MIN_1_MAX_128.label("issuer"),
   name: STRING_MIN_1_MAX_128.label("name"),

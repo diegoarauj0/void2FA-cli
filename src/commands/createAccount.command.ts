@@ -39,7 +39,7 @@ const buildAccount = (data: CreateAccountInput) =>
     name: data.name,
     issuer: data.issuer,
     secret: data.secret,
-    algorithm: data.algorithm || "SHA1",
+    algorithm: (data.algorithm?.toUpperCase() || "SHA1") as Algorithm,
     encoding: data.encoding || AccountService.detectEncoding(data.secret),
     digits: data.digits || 6,
     customID: data.customID,
@@ -80,6 +80,7 @@ export default new BaseCommand({
     { name: "-d, --digits <count>", description: "Number of digits (default: 6)" },
     { name: "-c, --counter <value>", description: "Initial counter (for HOTP, default: 0)" },
     { name: "-t, --type <type>", description: "Account type: TOTP (default) or HOTP" },
+    { name: "-i, --customID <customID>", description: "customID" },
   ],
   action: async (name: string, issuer: string, secret: string, options: any) => {
     if (name === undefined) {

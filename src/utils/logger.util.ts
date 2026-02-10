@@ -6,7 +6,7 @@ export const loggerSuccess = (msg: string) => console.log(chalk.green("✔"), ms
 
 export const loggerError = (msg: string) => console.log(chalk.red("✖"), msg);
 
-export const loggerAccount = (account: AccountEntity) => {
+export const loggerAccount = (account: AccountEntity, secret?: boolean) => {
   const label = (text: string) => chalk.magenta(text + ":");
   const value = (text: string | number) => chalk.green(text + ",")
 
@@ -26,7 +26,7 @@ export const loggerAccount = (account: AccountEntity) => {
   console.log(`  ${label("digits")} ${value(account.digits)}`);
   console.log(`  ${label("algorithm")} ${value(account.algorithm)}`);
   console.log(`  ${label("encoding")} ${value(account.encoding)}`);
-  if (config.debug) {
+  if (config.debug || secret) {
     console.log(`  ${label("secret")} ${value(account.secret)}`);
   }
 };
