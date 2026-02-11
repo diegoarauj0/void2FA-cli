@@ -7,6 +7,7 @@ import chalk from "chalk";
 import figlet from "figlet";
 import deleteAccountCommand from "./commands/deleteAccount.command.js";
 import findAllAccountsCommand from "./commands/findAllAccounts.command.js";
+import editAccountCommand from "./commands/editAccount.command.js";
 
 const program = new Command();
 
@@ -25,5 +26,6 @@ program.addCommand(createAccountCommand);
 program.addCommand(findAccountCommand);
 program.addCommand(deleteAccountCommand)
 program.addCommand(findAllAccountsCommand)
+program.addCommand(editAccountCommand)
 
 program.parse();
