@@ -1,4 +1,4 @@
-import config from "@/infra/config.js";
+import config from "@/config.js";
 import type { AccountEntity } from "@/domain/entities/account.entity.js";
 import keytar from "keytar";
 import crypto from "node:crypto";

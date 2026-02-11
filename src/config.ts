@@ -1,4 +1,4 @@
-import pkg from "../../package.json" with { type: "json" };
+import pkg from "../package.json" with { type: "json" };
 import { fileURLToPath } from "node:url";
 import path from "node:path";
 

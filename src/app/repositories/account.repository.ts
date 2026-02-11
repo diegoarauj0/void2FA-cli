@@ -1,4 +1,4 @@
-import config from "@/infra/config.js";
+import config from "@/config.js";
 import { AccountEntity } from "@/domain/entities/account.entity.js";
 import { EncryptService, type IEncryptedData } from "@/app/service/encrypt.service.js";
 import fs from "node:fs";
@@ -58,7 +58,7 @@ export class AccountRepository {
   }
 
   public static async findById(id: string): Promise<AccountEntity | null> {
-    return AccountRepository.find("id", id) || AccountRepository.find("customID", id);
+    return await AccountRepository.find("id", id) || await AccountRepository.find("customID", id);
   }
 
   public static async delete<K extends keyof AccountEntity>(field: K, value: AccountEntity[K]): Promise<void> {

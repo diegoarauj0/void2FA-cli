@@ -1,6 +1,6 @@
 import { Command } from "commander";
 import pingCommand from "@/infra/commands/ping.command.js";
-import config from "@/infra/config.js";
+import config from "@/config.js";
 import chalk from "chalk";
 import figlet from "figlet";
 import { createCommand } from "./commands/account/create.command.js";

@@ -1,4 +1,4 @@
-import config from "@/infra/config.js";
+import config from "@/config.js";
 import { loggerError } from "./logger.util.js";
 
 export default function (callback: (...args: any[]) => Promise<void>) {

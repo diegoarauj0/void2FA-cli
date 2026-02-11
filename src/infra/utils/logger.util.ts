@@ -1,6 +1,6 @@
 import chalk from "chalk";
 import type { AccountEntity } from "@/domain/entities/account.entity.js";
-import config from "@/infra/config.js";
+import config from "@/config.js";
 
 export const loggerWarning = (msg: string) => console.log(chalk.yellow("!"), msg);
 
