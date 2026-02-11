@@ -54,6 +54,12 @@ class AccountRepository {
     return accounts.find((account) => account[field] === value) ?? null;
   }
 
+  public async delete<K extends keyof AccountEntity>(field: K, value: AccountEntity[K]): Promise<void> {
+    const accounts = await this.readFile();
+
+    await this.writeFile(accounts.filter((account) => account[field] !== value));
+  }
+
   public async save(account: AccountEntity): Promise<void> {
     const accounts = await this.readFile();
     const customID = account.customID?.trim();

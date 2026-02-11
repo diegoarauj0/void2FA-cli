@@ -2,6 +2,7 @@ import { selectAccountPrompt } from "@/prompts/selectAccount.prompt.js";
 import { accountRepository } from "@/repositories/account.repository.js";
 import { loggerAccount, loggerError } from "@/utils/logger.util.js";
 import { BaseCommand } from "./base.command.js";
+import findAccountUtil from "@/utils/findAccount.util.js";
 
 export default new BaseCommand({
   options: [{ name: "-s, --secret", description: "Display the account’s secret" }],
@@ -27,10 +28,7 @@ export default new BaseCommand({
     },
   ],
   action: async (id: string | undefined, { secret }: { secret: boolean }) => {
-    const account =
-      id === undefined
-        ? await selectAccountPrompt()
-        : (await accountRepository.find("id", id)) || (await accountRepository.find("customID", id));
+    const account = id === undefined ? await selectAccountPrompt() : await findAccountUtil(id);
 
     if (!account) {
       return loggerError(id === undefined ? "No accounts available." : "Account was not found.");

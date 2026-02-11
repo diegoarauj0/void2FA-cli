@@ -7,10 +7,10 @@ const __dirname = path.dirname(__filename);
 
 export default {
   bin: "void2fa",
-  name: "void2fa",
+  name: pkg.name,
   service: "void2fa",
   version: pkg.version,
   accountsFile: path.join(__dirname, "..", "accounts.enc"),
   debug: true,
-  description: "A CLI tool for managing 2FA authentication accounts.",
+  description: pkg.description,
 };

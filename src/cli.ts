@@ -5,6 +5,8 @@ import pingCommand from "@/commands/ping.command.js";
 import config from "@/config.js";
 import chalk from "chalk";
 import figlet from "figlet";
+import deleteAccountCommand from "./commands/deleteAccount.command.js";
+import findAllAccountsCommand from "./commands/findAllAccounts.command.js";
 
 const program = new Command();
 
@@ -21,5 +23,7 @@ program.name(config.name).description(description).version(config.version);
 program.addCommand(pingCommand);
 program.addCommand(createAccountCommand);
 program.addCommand(findAccountCommand);
+program.addCommand(deleteAccountCommand)
+program.addCommand(findAllAccountsCommand)
 
 program.parse();
