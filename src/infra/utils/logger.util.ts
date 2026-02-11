@@ -2,6 +2,8 @@ import chalk from "chalk";
 import type { AccountEntity } from "@/domain/entities/account.entity.js";
 import config from "@/infra/config.js";
 
+export const loggerWarning = (msg: string) => console.log(chalk.yellow("!"), msg);
+
 export const loggerSuccess = (msg: string) => console.log(chalk.green("✔"), msg);
 
 export const loggerError = (msg: string) => console.log(chalk.red("✖"), msg);
