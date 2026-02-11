@@ -1,4 +1,4 @@
-import type { Encoding } from "@/entities/account.entity.js";
+import type { Encoding } from "@/domain/entities/account.entity.js";
 
 export class AccountService {
   public static detectEncoding(secret: string): Encoding {

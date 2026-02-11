@@ -1,5 +1,5 @@
-import config from "@/config.js";
-import type { AccountEntity } from "@/entities/account.entity.js";
+import config from "@/infra/config.js";
+import type { AccountEntity } from "@/domain/entities/account.entity.js";
 import keytar from "keytar";
 import crypto from "node:crypto";
 
@@ -43,7 +43,7 @@ export class EncryptService {
 
   public static async decrypt(data: IEncryptedData): Promise<Array<AccountEntity>> {
     const key = await EncryptService.getkey();
-    
+
     const decipher = crypto.createDecipheriv(EncryptService.algorithm, key, Buffer.from(data.iv, "hex"));
 
     decipher.setAuthTag(Buffer.from(data.tag, "hex"));

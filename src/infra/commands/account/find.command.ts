@@ -1,10 +1,9 @@
-import { selectAccountPrompt } from "@/prompts/selectAccount.prompt.js";
-import { accountRepository } from "@/repositories/account.repository.js";
-import { loggerAccount, loggerError } from "@/utils/logger.util.js";
-import { BaseCommand } from "./base.command.js";
-import findAccountUtil from "@/utils/findAccount.util.js";
+import { AccountRepository } from "@/app/repositories/account.repository.js";
+import { loggerAccount, loggerError } from "@/infra/utils/logger.util.js";
+import { selectPrompt } from "@/infra/prompts/account/select.prompt.js";
+import { BaseCommand } from "@/infra/commands/base.command.js";
 
-export default new BaseCommand({
+export const findCommand = new BaseCommand({
   options: [{ name: "-s, --secret", description: "Display the account’s secret" }],
   description: "Show detailed information about a specific account",
   arguments: ["[id]"],
@@ -27,12 +26,11 @@ export default new BaseCommand({
       comment: "// Opens the interactive prompt when no ID is provided",
     },
   ],
-  action: async (id: string | undefined, { secret }: { secret: boolean }) => {
-    const account = id === undefined ? await selectAccountPrompt() : await findAccountUtil(id);
+  action: async (ID: string | undefined, { secret }: { secret: boolean }) => {
+    const accountID = ID === undefined ? await selectPrompt() : ID;
+    const account = await AccountRepository.findById(accountID);
 
-    if (!account) {
-      return loggerError(id === undefined ? "No accounts available." : "Account was not found.");
-    }
+    if (account === null) return loggerError("Account was not found.");
 
     loggerAccount(account, secret);
   },

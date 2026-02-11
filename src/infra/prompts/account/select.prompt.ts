@@ -1,11 +1,11 @@
-import { accountRepository } from "@/repositories/account.repository.js";
+import { AccountRepository } from "@/app/repositories/account.repository.js";
 import inquirer from "inquirer";
 
-export async function selectAccountPrompt() {
-  const accounts = await accountRepository.findAll();
+export async function selectPrompt(): Promise<string> {
+  const accounts = await AccountRepository.findAll();
 
   if (accounts.length === 0) {
-    return null;
+    throw new Error("No accounts available.");
   }
 
   const { account } = await inquirer.prompt<{ account: string }>([
@@ -20,5 +20,5 @@ export async function selectAccountPrompt() {
     },
   ]);
 
-  return accounts.find((item) => item.id === account) ?? null;
+  return account;
 }

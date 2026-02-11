@@ -1,4 +1,4 @@
-import { loggerSuccess } from "@/utils/logger.util.js";
+import { loggerSuccess } from "@/infra/utils/logger.util.js";
 import { BaseCommand } from "./base.command.js";
 
 export default new BaseCommand({

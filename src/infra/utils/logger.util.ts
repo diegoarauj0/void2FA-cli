@@ -1,6 +1,6 @@
 import chalk from "chalk";
-import type { AccountEntity } from "@/entities/account.entity.js";
-import config from "@/config.js";
+import type { AccountEntity } from "@/domain/entities/account.entity.js";
+import config from "@/infra/config.js";
 
 export const loggerSuccess = (msg: string) => console.log(chalk.green("✔"), msg);
 
@@ -8,7 +8,7 @@ export const loggerError = (msg: string) => console.log(chalk.red("✖"), msg);
 
 export const loggerAccount = (account: AccountEntity, secret?: boolean) => {
   const label = (text: string) => chalk.magenta(text + ":");
-  const value = (text: string | number) => chalk.green(text + ",")
+  const value = (text: string | number) => chalk.green(text + ",");
 
   console.log(chalk.magenta("About account:"));
   console.log(`  ${label("id")} ${value(account.id)}`);

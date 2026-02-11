@@ -1,11 +1,11 @@
-import config from "@/config.js";
-import { AccountEntity } from "@/entities/account.entity.js";
-import { EncryptService, type IEncryptedData } from "@/service/encrypt.service.js";
+import config from "@/infra/config.js";
+import { AccountEntity } from "@/domain/entities/account.entity.js";
+import { EncryptService, type IEncryptedData } from "@/app/service/encrypt.service.js";
 import fs from "node:fs";
 import path from "node:path";
 
-class AccountRepository {
-  private async readFile(): Promise<Array<AccountEntity>> {
+export class AccountRepository {
+  private static async readFile(): Promise<Array<AccountEntity>> {
     if (!fs.existsSync(config.accountsFile)) {
       await fs.promises.mkdir(path.parse(config.accountsFile).dir, { recursive: true });
       await fs.promises.writeFile(config.accountsFile, "[]", "utf-8");
@@ -35,7 +35,7 @@ class AccountRepository {
     );
   }
 
-  private async writeFile(accounts: Array<AccountEntity>): Promise<void> {
+  private static async writeFile(accounts: Array<AccountEntity>): Promise<void> {
     if (!fs.existsSync(config.accountsFile)) {
       await fs.promises.mkdir(path.parse(config.accountsFile).dir, { recursive: true });
     }
@@ -45,23 +45,30 @@ class AccountRepository {
     await fs.promises.writeFile(config.accountsFile, JSON.stringify(encrypted), "utf-8");
   }
 
-  public async findAll(): Promise<Array<AccountEntity>> {
-    return this.readFile();
+  public static async findAll(): Promise<Array<AccountEntity>> {
+    return AccountRepository.readFile();
   }
 
-  public async find<K extends keyof AccountEntity>(field: K, value: AccountEntity[K]): Promise<AccountEntity | null> {
-    const accounts = await this.readFile();
+  public static async find<K extends keyof AccountEntity>(
+    field: K,
+    value: AccountEntity[K]
+  ): Promise<AccountEntity | null> {
+    const accounts = await AccountRepository.readFile();
     return accounts.find((account) => account[field] === value) ?? null;
   }
 
-  public async delete<K extends keyof AccountEntity>(field: K, value: AccountEntity[K]): Promise<void> {
-    const accounts = await this.readFile();
-
-    await this.writeFile(accounts.filter((account) => account[field] !== value));
+  public static async findById(id: string): Promise<AccountEntity | null> {
+    return AccountRepository.find("id", id) || AccountRepository.find("customID", id);
   }
 
-  public async save(account: AccountEntity): Promise<void> {
-    const accounts = await this.readFile();
+  public static async delete<K extends keyof AccountEntity>(field: K, value: AccountEntity[K]): Promise<void> {
+    const accounts = await AccountRepository.readFile();
+
+    await AccountRepository.writeFile(accounts.filter((account) => account[field] !== value));
+  }
+
+  public static async save(account: AccountEntity): Promise<void> {
+    const accounts = await AccountRepository.readFile();
     const customID = account.customID?.trim();
 
     if (customID && customID.length > 0) {
@@ -75,13 +82,11 @@ class AccountRepository {
 
     if (existingIndex >= 0) {
       accounts[existingIndex] = account;
-      await this.writeFile(accounts);
+      await AccountRepository.writeFile(accounts);
       return;
     }
 
     accounts.push(account);
-    await this.writeFile(accounts);
+    await AccountRepository.writeFile(accounts);
   }
 }
-
-export const accountRepository = new AccountRepository();
