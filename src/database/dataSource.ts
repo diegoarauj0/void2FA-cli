@@ -12,8 +12,12 @@ const __dirname = path.join(path.dirname(__filename));
 export const dataSource = new DataSource({
   database: isDev ? `${__dirname}/../../SQLite.db` : `${data}/SQLite.db`,
   synchronize: isDev,
-  entities: isDev ? ["src/**/*.entity.ts"] : ["dist/**/*.entity.js"],
-  migrations: isDev ? ["src/migrations/*.ts"] : ["dist/migrations/*.js"],
+  entities: isDev
+    ? [path.join(`${__dirname}/../../src/**/*.entity.ts`)]
+    : [path.join(`${__dirname}/../../dist/**/*.entity.js`)],
+  migrations: isDev
+    ? [path.join(`${__dirname}/../../src/migrations/*.ts`)]
+    : [path.join(`${__dirname}/../../dist/migrations/*.js`)],
   migrationsRun: true,
   type: "better-sqlite3",
 });

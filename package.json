@@ -1,6 +1,6 @@
 {
   "name": "void2fa",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "A CLI tool for managing 2FA authentication accounts.",
   "homepage": "https://github.com/diegoarauj0/void2FA-cli#readme",
   "bugs": {
