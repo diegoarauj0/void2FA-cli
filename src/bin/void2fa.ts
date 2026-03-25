@@ -1,2 +1,3 @@
 #!/usr/bin/env node
-import "../infra/cli.js";
+import "reflect-metadata"
+import "../core/cli.js";
