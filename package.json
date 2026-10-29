@@ -22,6 +22,7 @@
   "main": "./dist/bin/void2fa.js",
   "scripts": {
     "build": "tsc && tsc-alias",
+    "compile": "deno compile --node-modules-dir=auto --allow-sys --allow-env --allow-run --allow-read --allow-write --allow-ffi --output dist/release/void2fa dist/bin/void2fa.js ",
     "dev": "cross-env NODE_ENV=dev tsx src/bin/void2fa.ts"
   },
   "keywords": [
@@ -37,13 +38,11 @@
     "chalk": "^5.6.2",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.15.1",
-    "clipboardy": "^5.2.1",
     "commander": "^14.0.3",
     "cross-env": "^10.1.0",
     "env-paths": "^4.0.0",
     "figlet": "^1.10.0",
     "inquirer": "^13.2.2",
-    "joi": "^18.0.2",
     "keytar": "^7.9.0",
     "reflect-metadata": "^0.2.2",
     "speakeasy": "^2.0.0",

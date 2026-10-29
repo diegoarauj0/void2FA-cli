@@ -1,0 +1,14 @@
+{
+  "nodeModulesDir": "auto",
+  "allowScripts": ["npm:keytar"],
+  "compile": {
+    "include": [],
+    "permissions": {
+      "read": true,
+      "write": true,
+      "env": true,
+      "ffi": true,
+      "run": true
+    }
+  }
+}

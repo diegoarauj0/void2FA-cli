@@ -5,7 +5,7 @@ import type { Account } from "@/account.interface.js";
 import * as Application from "../aplication.command.js";
 import { OtpService } from "@/services/otp.service.js";
 import { setTimeout } from "timers/promises";
-import clipboardy from "clipboardy";
+import { ClipboardService } from "@/services/clipboard.service.js";
 
 interface InterfaceCodeOptions {
   clipboard?: boolean;
@@ -47,6 +47,7 @@ export class CodeAccountCommand extends Application.ApplicationCommand<Interface
   ];
 
   private readonly accountService = new AccountService();
+  private readonly clipboardService = new ClipboardService();
 
   protected async main(options: InterfaceCodeOptions): Promise<void> {
     loggerDebug("Code command started", { options });
@@ -165,7 +166,13 @@ export class CodeAccountCommand extends Application.ApplicationCommand<Interface
   private async emitCode(code: string, clipboard?: boolean, raw?: boolean, remaining?: number) {
     if (raw) return console.log(code);
 
-    if (clipboard) await clipboardy.write(code);
+    if (clipboard) {
+      try {
+        await this.clipboardService.write(code);
+      } catch (err) {
+        loggerError("Failed to copy to clipboard: " + String(err instanceof Error ? err.message : String(err)));
+      }
+    }
 
     loggerInfo(`Code: ${code}`);
 
