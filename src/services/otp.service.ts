@@ -1,16 +1,16 @@
-import type { AccountEntity } from "@/account.entity.js";
+import type { Account } from "@/account.interface.js";
 import speakeasy from "speakeasy";
 
 export class OtpService {
-  private static normalizeAlgorithm(account: Pick<AccountEntity, "algorithm">) {
+  private static normalizeAlgorithm(account: Pick<Account, "algorithm">) {
     return account.algorithm.toLowerCase() as "sha1" | "sha256" | "sha512";
   }
 
-  private static normalizeEncoding(account: Pick<AccountEntity, "encoding">) {
+  private static normalizeEncoding(account: Pick<Account, "encoding">) {
     return account.encoding.toLowerCase() as "ascii" | "hex" | "base32" | "base64";
   }
 
-  public static getTotpRemaining(account: AccountEntity): number {
+  public static getTotpRemaining(account: Account): number {
     if (account.type !== "TOTP") {
       throw new Error("Account must be of the TOTP type.");
     }
@@ -20,7 +20,7 @@ export class OtpService {
     return account.period - seconds;
   }
 
-  public static generateCode(account: AccountEntity): string {
+  public static generateCode(account: Account): string {
     const algorithm = this.normalizeAlgorithm(account);
     const encoding = this.normalizeEncoding(account);
 

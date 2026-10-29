@@ -2,7 +2,7 @@ import { loggerAccount, loggerDebug, loggerError, loggerInfo, loggerSuccess, log
 import { selectPrompt } from "@/prompts/account/select.prompt.js";
 import { AccountService } from "@/services/account.service.js";
 import * as Application from "../aplication.command.js";
-import type { AccountEntity } from "@/account.entity.js";
+import type { Account } from "@/account.interface.js";
 import { confirmPrompt } from "@/prompts/account/confirm.prompt.js";
 
 export class DeleteAccountCommand extends Application.ApplicationCommand<{ query?: string }> {
@@ -64,7 +64,7 @@ export class DeleteAccountCommand extends Application.ApplicationCommand<{ query
     loggerAccount(account);
   }
 
-  private async resolveAccount(id?: string): Promise<AccountEntity | null> {
+  private async resolveAccount(id?: string): Promise<Account | null> {
     if (!id) {
       const accounts = await this.accountService.find();
 

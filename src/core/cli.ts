@@ -1,4 +1,3 @@
-import { dataSource } from "@/database/dataSource.js";
 import { commandHandler } from "./commandHandler.js";
 import commands from "@/commands/commands.js";
 import { Config } from "@/config.js";
@@ -7,8 +6,6 @@ import figlet from "figlet";
 import chalk from "chalk";
 
 (async () => {
-  await dataSource.initialize();
-
   const program = new Command();
 
   const description = chalk.magentaBright(

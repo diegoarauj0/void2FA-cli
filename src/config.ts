@@ -5,6 +5,8 @@ export class Config {
   public static DESCRIPTION = pkg.description;
   public static VERSION = pkg.version;
   public static SERVICE = "void2fa";
-  public static NAME = pkg.name;
+  public static NAME = pkg.namew;
   public static BIN = "void2fa";
+  public static ACCOUNTS_FILE = "accounts.enc";
+  public static ACCOUNTS_VERSION = 1;
 }

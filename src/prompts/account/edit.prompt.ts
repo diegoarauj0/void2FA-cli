@@ -1,20 +1,20 @@
 import { EditAccountDTO } from "@/dtos/account/editAccount.dto.js";
 import { ACCOUNT_CONSTANT } from "@/account.constant.js";
-import type { AccountEntity } from "@/account.entity.js";
+import type { Account } from "@/account.interface.js";
 import { plainToClass } from "class-transformer";
 import { validateSync } from "class-validator";
 import inquirer from "inquirer";
 
 interface InterfaceEditPromptOutput {
-  algorithm: AccountEntity["algorithm"];
-  encoding: AccountEntity["encoding"];
-  counter: AccountEntity["counter"];
-  issuer: AccountEntity["issuer"];
-  secret: AccountEntity["secret"];
-  period: AccountEntity["period"];
-  digits: AccountEntity["digits"];
-  name: AccountEntity["name"];
-  type: AccountEntity["type"];
+  algorithm: Account["algorithm"];
+  encoding: Account["encoding"];
+  counter: Account["counter"];
+  issuer: Account["issuer"];
+  secret: Account["secret"];
+  period: Account["period"];
+  digits: Account["digits"];
+  name: Account["name"];
+  type: Account["type"];
 }
 
 function validation(props: { [key: string]: string | number | undefined }) {
@@ -28,7 +28,7 @@ function validation(props: { [key: string]: string | number | undefined }) {
   return true;
 }
 
-export async function editPrompt(account: AccountEntity): Promise<InterfaceEditPromptOutput> {
+export async function editPrompt(account: Account): Promise<InterfaceEditPromptOutput> {
   try {
     const answers = await inquirer.prompt<InterfaceEditPromptOutput>([
       {

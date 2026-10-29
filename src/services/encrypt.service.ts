@@ -33,25 +33,33 @@ export class EncryptService {
   }
 
   public async decrypt(value: string): Promise<string> {
-    if (!value.startsWith(this.prefix)) return value;
-
     try {
-      const key = await this.getkey();
-      const data = Buffer.from(value.slice(this.prefix.length), "base64");
-
-      if (data.length < this.ivLength + this.authTagLength) return value;
-
-      const iv = data.subarray(0, this.ivLength);
-      const authTag = data.subarray(this.ivLength, this.ivLength + this.authTagLength);
-      const encryptedContent = data.subarray(this.ivLength + this.authTagLength);
-
-      const decipher = crypto.createDecipheriv(this.algorithm, key, iv, { authTagLength: this.authTagLength });
-      decipher.setAuthTag(authTag);
-
-      const decrypted = Buffer.concat([decipher.update(encryptedContent), decipher.final()]);
-      return decrypted.toString("utf8");
+      return await this.decryptOrThrow(value);
     } catch {
       return value;
     }
+  }
+
+  public async decryptOrThrow(value: string): Promise<string> {
+    if (!value.startsWith(this.prefix)) {
+      throw new Error("The encrypted payload has an invalid format.");
+    }
+
+    const key = await this.getkey();
+    const data = Buffer.from(value.slice(this.prefix.length), "base64");
+
+    if (data.length < this.ivLength + this.authTagLength) {
+      throw new Error("The encrypted payload is corrupted.");
+    }
+
+    const iv = data.subarray(0, this.ivLength);
+    const authTag = data.subarray(this.ivLength, this.ivLength + this.authTagLength);
+    const encryptedContent = data.subarray(this.ivLength + this.authTagLength);
+
+    const decipher = crypto.createDecipheriv(this.algorithm, key, iv, { authTagLength: this.authTagLength });
+    decipher.setAuthTag(authTag);
+
+    const decrypted = Buffer.concat([decipher.update(encryptedContent), decipher.final()]);
+    return decrypted.toString("utf8");
   }
 }

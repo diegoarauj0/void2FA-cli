@@ -1,7 +1,7 @@
 import { loggerDebug, loggerError, loggerInfo, loggerSuccess, loggerWarning } from "@/core/logger.js";
 import { selectPrompt } from "@/prompts/account/select.prompt.js";
 import { AccountService } from "@/services/account.service.js";
-import type { AccountEntity } from "@/account.entity.js";
+import type { Account } from "@/account.interface.js";
 import * as Application from "../aplication.command.js";
 import { OtpService } from "@/services/otp.service.js";
 import { setTimeout } from "timers/promises";
@@ -176,7 +176,7 @@ export class CodeAccountCommand extends Application.ApplicationCommand<Interface
     loggerSuccess(`Code copied to clipboard (${remaining}s remaining)`);
   }
 
-  private async ensureAccountStillExists(account: AccountEntity): Promise<AccountEntity> {
+  private async ensureAccountStillExists(account: Account): Promise<Account> {
     const refreshed = await this.accountService.findOneById(account.id);
 
     if (refreshed === null) {

@@ -8,7 +8,7 @@
 ![GitHub package.json version](https://img.shields.io/github/package-json/v/diegoarauj0/void2FA-cli?style=for-the-badge)
 
 ![typescript](https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white)
-![SQLite](https://img.shields.io/badge/Sqlite-003B57?style=for-the-badge&logo=sqlite&logoColor=white)
+![JSON](https://img.shields.io/badge/JSON-000000?style=for-the-badge&logo=json&logoColor=white)
 ![NodeJs](https://img.shields.io/badge/Node%20js-339933?style=for-the-badge&logo=nodedotjs&logoColor=white)
 ![Npm](https://img.shields.io/badge/npm-CB3837?style=for-the-badge&logo=npm&logoColor=white)
 
@@ -49,8 +49,8 @@ npm install -g void2fa
 
 ## 🔒 Dados e Segurança
 
-Claro, aqui vai uma versão atualizada alinhada com o uso do SQLite:
-
-- 📁 As contas são armazenadas de forma segura em um banco de dados SQLite local
-- 🔐 Os dados sensíveis são criptografados antes de serem persistidos no banco
+- 📁 As contas são armazenadas em um arquivo JSON local (`accounts.enc`)
+- 🔐 O arquivo inteiro é criptografado com AES-256-GCM antes de ser gravado em disco
 - 🔑 A chave de criptografia é armazenada com segurança no chaveiro do sistema operacional usando keytar
+- 💾 As escritas são atômicas (arquivo temporário + rename) e a versão anterior é mantida em `accounts.enc.bak`
+- 📍 Local padrão: `~/.local/share/void2fa-nodejs/accounts.enc` no Linux (via `env-paths`); em modo dev, na raiz do projeto

@@ -3,7 +3,7 @@ import { EditAccountDTO } from "@/dtos/account/editAccount.dto.js";
 import { selectPrompt } from "@/prompts/account/select.prompt.js";
 import { AccountService } from "@/services/account.service.js";
 import { editPrompt } from "@/prompts/account/edit.prompt.js";
-import type { AccountEntity } from "@/account.entity.js";
+import type { Account } from "@/account.interface.js";
 import * as Application from "../aplication.command.js";
 import { plainToClass } from "class-transformer";
 import { validateSync } from "class-validator";
@@ -95,7 +95,7 @@ export class EditAccountCommand extends Application.ApplicationCommand<Interface
     loggerAccount(updatedAccount);
   }
 
-  private async resolveAccount(id?: string): Promise<AccountEntity | null> {
+  private async resolveAccount(id?: string): Promise<Account | null> {
     if (!id) {
       const accounts = await this.accountService.find();
 
@@ -110,7 +110,7 @@ export class EditAccountCommand extends Application.ApplicationCommand<Interface
     return this.accountService.findOneById(id);
   }
 
-  private validateInput(input: any): Partial<AccountEntity> | null {
+  private validateInput(input: any): Partial<Account> | null {
     const dto = plainToClass(EditAccountDTO, input);
     const errors = validateSync(dto, { skipMissingProperties: true });
 

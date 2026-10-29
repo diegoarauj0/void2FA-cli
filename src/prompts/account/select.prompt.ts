@@ -1,7 +1,7 @@
-import type { AccountEntity } from "@/account.entity.js";
+import type { Account } from "@/account.interface.js";
 import inquirer from "inquirer";
 
-export async function selectPrompt(accounts: AccountEntity[]): Promise<AccountEntity | null> {
+export async function selectPrompt(accounts: Account[]): Promise<Account | null> {
   try {
     if (accounts.length === 0) return null;
 

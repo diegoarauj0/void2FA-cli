@@ -1,4 +1,4 @@
-import type { AccountEntity } from "@/account.entity.js";
+import type { Account } from "@/account.interface.js";
 import { Config } from "@/config.js";
 import chalk from "chalk";
 import { table } from "table";
@@ -27,7 +27,7 @@ export const loggerDebug = (msg: string, ...meta: any[]) => {
   if (meta.length > 0) console.log(chalk.magenta("   >"), ...meta);
 };
 
-export const loggerAccount = (account: AccountEntity, showSecret = false) => {
+export const loggerAccount = (account: Account, showSecret = false) => {
   const lines: string[] = [];
 
   lines.push(chalk.cyan.bold("Account Details:"));
@@ -48,7 +48,7 @@ export const loggerAccount = (account: AccountEntity, showSecret = false) => {
   console.log(lines.join("\n"));
 };
 
-export const loggerAccountJSON = (account: AccountEntity, showSecret = false) => {
+export const loggerAccountJSON = (account: Account, showSecret = false) => {
   const output: any = {
     id: account.id,
     name: account.name,
@@ -68,7 +68,7 @@ export const loggerAccountJSON = (account: AccountEntity, showSecret = false) =>
   console.log(JSON.stringify(output, null, 2));
 };
 
-export const loggerAccountYAML = (account: AccountEntity, showSecret = false) => {
+export const loggerAccountYAML = (account: Account, showSecret = false) => {
   const output: any = {
     id: account.id,
     name: account.name,
@@ -88,7 +88,7 @@ export const loggerAccountYAML = (account: AccountEntity, showSecret = false) =>
   console.log(YAML.stringify(output));
 };
 
-export const loggerAccountTable = (accounts: AccountEntity[], showSecret = false) => {
+export const loggerAccountTable = (accounts: Account[], showSecret = false) => {
   const rows: any[] = [];
 
   const headers = ["ID", "Name", "Issuer", "Type", "Digits", "Period", "Counter", "Algorithm", "Encoding"];
@@ -109,6 +109,6 @@ export const loggerAccountTable = (accounts: AccountEntity[], showSecret = false
   console.log(table(rows));
 };
 
-export const loggerAccountDebug = (account: AccountEntity) => {
+export const loggerAccountDebug = (account: Account) => {
   loggerDebug("Account raw object:", account);
 };
